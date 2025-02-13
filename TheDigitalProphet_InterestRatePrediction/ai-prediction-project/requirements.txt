@@ -1,1 +1,6 @@
-#use command - pip install flask h2o pandas numpy plotly
+h2o
+flask
+pandas
+matplotlib
+numpy
+plotly
