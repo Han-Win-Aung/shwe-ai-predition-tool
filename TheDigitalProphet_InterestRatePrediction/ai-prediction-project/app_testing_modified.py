@@ -6,6 +6,9 @@ import plotly.graph_objects as go
 from h2o.automl import H2OAutoML
 from flask import Flask, render_template, request, redirect, url_for
 
+# Start H2O server before connecting
+h2o.init()
+
 # Set random seed globally
 np.random.seed(42)
 
