@@ -7,7 +7,7 @@ from h2o.automl import H2OAutoML
 from flask import Flask, render_template, request, redirect, url_for
 
 # Start H2O server before connecting
-h2o.init()
+h2o.init(nthreads=-1, max_mem_size="2G", strict_version_check=False)
 
 # Set random seed globally
 np.random.seed(42)
@@ -16,9 +16,6 @@ np.random.seed(42)
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "uploads"
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
-
-# Initialize H2O
-h2o.init(nthreads=-1, max_mem_size="2G", strict_version_check=False)
 
 # 🏠 Home route: File upload form
 @app.route("/", methods=["GET", "POST"])
@@ -134,4 +131,4 @@ def train_model(filename):
 
 # Run Flask app
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
