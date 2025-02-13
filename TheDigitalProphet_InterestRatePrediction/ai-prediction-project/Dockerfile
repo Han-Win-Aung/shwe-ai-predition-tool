@@ -4,9 +4,16 @@ FROM python:3.11
 # Set non-interactive mode to avoid prompts during apt-get install
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Update package lists and install OpenJDK 11 and curl
+# Update package lists and install dependencies for OpenJDK 11
 RUN apt-get update -y && \
-    apt-get install -y apt-transport-https openjdk-11-jre curl && \
+    apt-get install -y \
+    curl \
+    gnupg2 \
+    lsb-release \
+    ca-certificates && \
+    curl -sL https://packages.openjdk.java.net/openjdk11/ubuntu/ | tee /etc/apt/sources.list.d/openjdk.list && \
+    apt-get update -y && \
+    apt-get install -y openjdk-11-jre && \
     apt-get clean
 
 # Set JAVA_HOME environment variable
