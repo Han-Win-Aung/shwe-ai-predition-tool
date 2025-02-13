@@ -1,12 +1,12 @@
 # Use the official Python image as a base
-FROM python:3.11-slim
+FROM python:3.11
 
 # Set non-interactive mode to avoid prompts during apt-get install
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install Java (needed for H2O) and other required dependencies
+# Update package lists and install OpenJDK 11 and curl
 RUN apt-get update -y && \
-    apt-get install -y openjdk-11-jre curl && \
+    apt-get install -y apt-transport-https openjdk-11-jre curl && \
     apt-get clean
 
 # Set JAVA_HOME environment variable
