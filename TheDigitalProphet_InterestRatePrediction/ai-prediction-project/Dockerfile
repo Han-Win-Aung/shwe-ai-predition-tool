@@ -1,19 +1,17 @@
 # Use the official Python image as a base
 FROM python:3.11-slim
 
-# Set non-interactive mode for apt-get to avoid any interactive prompts
+# Set non-interactive mode to avoid prompts during apt-get install
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Update package list and install OpenJDK 11 (also install dependencies for apt-get)
-RUN apt-get update -y && apt-get install -y \
-    openjdk-11-jre \
-    ca-certificates \
-    wget \
-    curl \
-    && apt-get clean
+# Install Java (needed for H2O) and other required dependencies
+RUN apt-get update -y && \
+    apt-get install -y openjdk-11-jre curl && \
+    apt-get clean
 
 # Set JAVA_HOME environment variable
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
 
 # Set the working directory in the container
 WORKDIR /app
@@ -31,4 +29,4 @@ COPY TheDigitalProphet_InterestRatePrediction/ai-prediction-project /app
 EXPOSE 5000
 
 # Set the command to run your app (replace app_testing_modified.py with your main Python file)
-CMD ["python", "app_testing_modified.py"]  # Replace app.py with your main entry file
+CMD ["python", "app_testing_modified.py"]
