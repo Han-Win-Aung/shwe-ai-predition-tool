@@ -11,13 +11,13 @@ ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 WORKDIR /app
 
 # Copy the requirements.txt file to the container
-COPY D:/TheDigitalProphet_InterestRatePrediction/ai-prediction-project/requirements.txt /app/requirements.txt
+COPY TheDigitalProphet_InterestRatePrediction/ai-prediction-project/requirements.txt /app/requirements.txt
 
 # Install the Python dependencies
 RUN pip install -r requirements.txt
 
 # Copy the entire application code into the container
-COPY D:/TheDigitalProphet_InterestRatePrediction/ai-prediction-project /app
+COPY TheDigitalProphet_InterestRatePrediction/ai-prediction-project /app
 
 # Expose the port that your app will run on (adjust if needed)
 EXPOSE 5000
