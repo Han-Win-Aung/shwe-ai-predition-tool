@@ -4,10 +4,16 @@ FROM python:3.9-slim
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install system dependencies for H2O and Java (required by H2O)
+# Update package list and install dependencies
 RUN apt-get update -y && \
-    apt-get install -y curl gnupg2 lsb-release ca-certificates openjdk-11-jre && \
-    apt-get clean
+    apt-get install -y \
+    curl \
+    gnupg2 \
+    lsb-release \
+    ca-certificates \
+    openjdk-11-jre && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*  # Clean up to reduce image size
 
 # Copy the current directory contents into the container at /app
 COPY . /app
@@ -20,4 +26,4 @@ RUN pip install -r requirements.txt
 EXPOSE 5000
 
 # Run the Flask app
-CMD ["python", "app.py"]
+CMD ["python", "app_testing_modified.py"]
