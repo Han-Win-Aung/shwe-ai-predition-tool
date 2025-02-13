@@ -1,37 +1,23 @@
-# Use the Debian Bullseye as the base image
-FROM debian:bullseye-slim
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
 
-# Set non-interactive mode to avoid prompts during apt-get install
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Install curl, gnupg2, and dependencies for OpenJDK 11
-RUN apt-get update -y && \
-    apt-get install -y \
-    curl \
-    gnupg2 \
-    lsb-release \
-    ca-certificates \
-    openjdk-11-jdk \
-    python3 \
-    python3-pip && \
-    apt-get clean
-
-# Set JAVA_HOME environment variable
-ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-ENV PATH=$JAVA_HOME/bin:$PATH
-
-# Install Python dependencies
-COPY TheDigitalProphet_InterestRatePrediction/ai-prediction-project/requirements.txt /app/requirements.txt
-RUN pip3 install --no-cache-dir -r /app/requirements.txt
-
-# Copy the entire application code into the container
-COPY TheDigitalProphet_InterestRatePrediction/ai-prediction-project /app
-
-# Set the working directory in the container
+# Set the working directory inside the container
 WORKDIR /app
 
-# Expose the port that your app will run on (adjust if needed)
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install system dependencies for H2O and Java (required by H2O)
+RUN apt-get update -y && \
+    apt-get install -y curl gnupg2 lsb-release ca-certificates openjdk-11-jre && \
+    apt-get clean
+
+# Install Python dependencies
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+# Expose port 5000 to be accessible from outside the container
 EXPOSE 5000
 
-# Set the command to run your app (replace app_testing_modified.py with your main Python file)
-CMD ["python3", "app_testing_modified.py"]
+# Run the Flask app
+CMD ["python", "app.py"]
