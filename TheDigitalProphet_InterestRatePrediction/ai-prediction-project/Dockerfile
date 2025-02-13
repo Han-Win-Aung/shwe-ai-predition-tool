@@ -23,7 +23,8 @@ RUN apt-get update -y && \
 
 # Install Python dependencies
 RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r TheDigitalProphet_InterestRatePrediction/ai-prediction-project
+/requirements.txt
 
 # Expose port 5000 to be accessible from outside the container
 EXPOSE 5000
