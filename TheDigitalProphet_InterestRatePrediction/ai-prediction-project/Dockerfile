@@ -4,18 +4,16 @@ FROM python:3.9-slim
 # Set the working directory inside the container
 WORKDIR /app
 
-# Add Java repository and install dependencies
+# Install system dependencies and Java (OpenJDK 11)
 RUN apt-get update -y && \
     apt-get install -y \
     curl \
     gnupg2 \
     lsb-release \
-    ca-certificates && \
-    curl -sL https://packages.openjdk.java.net/openjdk11/ubuntu/ | tee /etc/apt/sources.list.d/openjdk.list && \
-    apt-get update -y && \
-    apt-get install -y openjdk-11-jdk && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*  # Clean up to reduce image size
+    ca-certificates \
+    openjdk-11-jdk \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*  # Clean up to reduce image size
 
 # Copy the current directory contents into the container at /app
 COPY . /app
