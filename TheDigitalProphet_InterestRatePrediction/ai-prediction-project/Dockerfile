@@ -1,5 +1,5 @@
 # Use the official Python image as a base
-FROM python:3.11
+FROM python:3.11-slim
 
 # Set non-interactive mode to avoid prompts during apt-get install
 ENV DEBIAN_FRONTEND=noninteractive
@@ -11,7 +11,7 @@ RUN apt-get update -y && \
     gnupg2 \
     lsb-release \
     ca-certificates \
-    openjdk-11-jre && \
+    openjdk-11-jdk && \
     apt-get clean
 
 # Set JAVA_HOME environment variable
